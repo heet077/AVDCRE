@@ -163,7 +163,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onClose, onS
 
   // Validation for Middle Name (optional, but if filled, must be valid)
   const validateMiddleName = (name: string): string | undefined => {
-    if (!name.trim()) return undefined;
+    if (!name.trim()) return "Father's name is required";
     if (name.trim().length < 2) return "Middle name must be at least 2 characters long";
     if (!/^[a-zA-Z\s]+$/.test(name.trim())) return "Middle name should only contain letters and spaces";
     return undefined;
@@ -278,11 +278,17 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onClose, onS
       }
 
       if (field === 'stageVibes') {
-        const error = validateStageVibes(formData.stageVibes, formData.customStageVibe);
-        if (error) {
-          errors.stageVibes = error;
-          isValid = false;
+        // If no creative interests or software are selected, stageVibes is required
+        const hasCreative = formData.interests.length > 0 || formData.customInterest.trim();
+        const hasSoftware = formData.software.length > 0 || formData.customSoftware.trim();
+        if (!hasCreative && !hasSoftware) {
+          const error = validateStageVibes(formData.stageVibes, formData.customStageVibe);
+          if (error) {
+            errors.stageVibes = error;
+            isValid = false;
+          }
         }
+        // Otherwise, stageVibes is optional
       }
     }
 
@@ -551,7 +557,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onClose, onS
                   onChange={(e) => handleInputChange('firstName', e.target.value)}
                   className={`mt-1.5 h-10 md:h-11 text-base ${validationErrors.firstName ? 'border-red-500' : ''}`}
                 />
-                <p className="text-xs text-muted-foreground mt-1">Example: Taksh</p>
+                <p className="text-xs text-muted-foreground mt-1">Example:Anand </p>
                 {validationErrors.firstName && (
                   <p className="text-xs text-red-500 mt-1">{validationErrors.firstName}</p>
                 )}
@@ -566,7 +572,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onClose, onS
                   onChange={(e) => handleInputChange('middleName', e.target.value)}
                   className={`mt-1.5 h-10 md:h-11 text-base ${validationErrors.middleName ? 'border-red-500' : ''}`}
                 />
-                <p className="text-xs text-muted-foreground mt-1">Example: Kantibhai</p>
+                <p className="text-xs text-muted-foreground mt-1">Example: Kamleshbhai</p>
                 {validationErrors.middleName && (
                   <p className="text-xs text-red-500 mt-1">{validationErrors.middleName}</p>
                 )}
@@ -581,7 +587,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onClose, onS
                   onChange={(e) => handleInputChange('lastName', e.target.value)}
                   className={`mt-1.5 h-10 md:h-11 text-base ${validationErrors.lastName ? 'border-red-500' : ''}`}
                 />
-                <p className="text-xs text-muted-foreground mt-1">Example: Asalaliya</p>
+                <p className="text-xs text-muted-foreground mt-1">Example: Patel</p>
                 {validationErrors.lastName && (
                   <p className="text-xs text-red-500 mt-1">{validationErrors.lastName}</p>
                 )}
@@ -610,7 +616,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onClose, onS
                 className={`mt-1.5 h-10 md:h-11 text-base ${validationErrors.mobileNumber ? 'border-red-500' : ''}`}
                 disabled={isCheckingMobile}
               />
-              <p className="text-xs text-muted-foreground mt-1">Example: 9876543210</p>
+              <p className="text-xs text-muted-foreground mt-1">Example: 7046228548</p>
               {validationErrors.mobileNumber && (
                 <p className="text-xs text-red-500 mt-1">{validationErrors.mobileNumber}</p>
               )}
@@ -640,7 +646,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onClose, onS
                 onChange={(e) => handleInputChange('roomNumber', e.target.value)}
                 className={`mt-1.5 h-10 md:h-11 text-base ${validationErrors.roomNumber ? 'border-red-500' : ''}`}
               />
-              <p className="text-xs text-muted-foreground mt-1">Example:101</p>
+              <p className="text-xs text-muted-foreground mt-1">Example: 415</p>
               {validationErrors.roomNumber && (
                 <p className="text-xs text-red-500 mt-1">{validationErrors.roomNumber}</p>
               )}
@@ -700,7 +706,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onClose, onS
                 onChange={(e) => handleInputChange('wingCommanderName', e.target.value)}
                 className={`mt-1.5 h-10 md:h-11 text-base ${validationErrors.wingCommanderName ? 'border-red-500' : ''}`}
               />
-              <p className="text-xs text-muted-foreground mt-1">Example: Rajesh Kumar</p>
+              <p className="text-xs text-muted-foreground mt-1">Example: Anandbhai </p>
               {validationErrors.wingCommanderName && (
                 <p className="text-xs text-red-500 mt-1">{validationErrors.wingCommanderName}</p>
               )}
